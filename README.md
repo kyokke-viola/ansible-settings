@@ -60,3 +60,8 @@ Of course Python and Ansible are installed, too!
 you can exclude roles which you don't need.
 
 - Ubuntu 14.04.2 LTS x86_64
+ - cdev : c/c++ development tools
+ - git
+ - lang : japanese language package
+ - python-default:
+ 
