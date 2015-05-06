@@ -4,3 +4,4 @@
   roles:
     - lang
     - python-default
+    - git
