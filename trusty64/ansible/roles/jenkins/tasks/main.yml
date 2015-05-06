@@ -1,0 +1,16 @@
+---
+- name: add apt-key for jenkins
+  sudo: yes
+  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
+
+- name: add apt source for jenkins
+  sudo: yes
+  apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/' state=present
+
+- name: update apt and install jenkins
+  sudo: yes
+  apt: name=jenkins update_cache=yes state=latest
+
+- name: start jenkins and enabled(start on boot)
+  sudo: yes
+  service: name=jenkins state=started enabled=yes
