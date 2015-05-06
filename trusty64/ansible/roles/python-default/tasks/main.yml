@@ -1,0 +1,23 @@
+---
+- name: install packages for python build
+  sudo: yes
+  apt: name={{ item }} state=installed
+  with_items:
+    - build-essential
+    - libreadline6-dev
+    - libgbm-dev
+    - zlib1g-dev
+    - libbz2-dev
+    - sqlite3
+    - tk-dev
+    - zip
+    - libssl-dev
+    - python-dev
+
+- name: install pip
+  sudo: yes
+  apt: name=python-pip state=installed
+
+- name: install virtualenv
+  sudo: yes
+  pip: name=virtualenv state=latest
