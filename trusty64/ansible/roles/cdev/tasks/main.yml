@@ -1,0 +1,16 @@
+---
+- name: install build tools
+  sudo: yes
+  apt: name={{ item }} state=latest
+  with_items:
+    - gcc
+    - g++
+    - make
+
+- name: install test tools
+  sudo: yes
+  apt: name={{ item }} state=latest
+  with_items:
+    - cpputest
+    - valgrind
+    # - gcovr
