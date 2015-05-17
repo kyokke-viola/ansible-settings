@@ -14,3 +14,15 @@
 - name: start jenkins and enabled(start on boot)
   sudo: yes
   service: name=jenkins state=started enabled=yes
+
+# install plugins from cli
+# http://qiita.com/tototoshi/items/a2061a237faa21ee2f2c
+- name: get jenkins-cli tool
+  get_url: url=http://localhost:8080/jnlpJars/jenkins-cli.jar dest=.
+
+- name: install plugins
+  command: java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin {{ item }}
+  with_items:
+    - git
+    - tasks
+    - cobertura
