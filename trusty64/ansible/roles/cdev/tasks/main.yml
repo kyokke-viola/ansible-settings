@@ -14,3 +14,11 @@
     - cpputest
     - valgrind
     # - gcovr
+
+- name: add  for ubuntu-sdke-team repo to install qt
+  sudo: yes
+  apt_repository: repo='ppa:ubuntu-sdk-team/ppa' state=present
+
+- name: update apt and install qt
+  sudo: yes
+  apt: name=qt5-default update_cache=yes state=latest
