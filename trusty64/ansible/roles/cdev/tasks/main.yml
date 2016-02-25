@@ -13,6 +13,7 @@
   with_items:
     - cpputest
     - valgrind
+    - libgtest-dev
     # - gcovr
 
 - name: add  for ubuntu-sdke-team repo to install qt
