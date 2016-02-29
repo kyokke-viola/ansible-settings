@@ -15,6 +15,7 @@
     - valgrind
     # - gcovr
 
+# Qt
 - name: add  for ubuntu-sdke-team repo to install qt
   sudo: yes
   apt_repository: repo='ppa:ubuntu-sdk-team/ppa' state=present
@@ -23,12 +24,11 @@
   sudo: yes
   apt: name=qt5-default update_cache=yes state=latest
 
-
-
+# google test (now testing)
 - name: (gtest) install packages
   sudo: yes
   apt: name={{ item }} state=present update_cache=yes
-  with_items: gtests_packages
+  with_items: gtest_packages
 
 - name: (gtest) check gtest installation
   stat: path=/usr/lib/libgtest.a
@@ -36,17 +36,19 @@
 
 - name: (gtest) ensure gtest build directory
   file: path={{ gtest_build_dir }} state=directory
-  when: not status.stat.exists
+  # when: not status.stat.exists
 
 - name: (gtest) build and install gtest
   sudo: yes
-  command: "{{ item }}" chdir= {{ gtest_build_dir }}
+  command: "{{ item }} chdir= {{ gtest_src_dir }}"
+  # when: not status.stat.exists
   with_items:
     - cmake {{ gtest_src_dir }}
     - make
-    - cp libgtest.a /usr/lib
-    - cp libgtest_main.a /usr/lib
+    - cp libgtest.a /usr/lib/
+    - cp libgtest_main.a /usr/lib/
 
-- name: remove gtest build directory
+- name: (gtest) remove gtest build directory
+  sudo: yes
   file: path={{ gtest_build_dir }} state=absent
-  when: not status.stat.exists
+  # when: not status.stat.exists

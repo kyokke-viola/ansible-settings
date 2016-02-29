@@ -6,4 +6,4 @@ gtest_packages:
 
 gtest_src_dir: /usr/src/gtest
 
-gtest_build_dir: "{{ gtest_src_dir }}"/build
+gtest_build_dir: "{{ gtest_src_dir }}/build"
