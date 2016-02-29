@@ -1,0 +1,29 @@
+# google test (now testing)
+- name: install packages
+  sudo: yes
+  apt: name={{ item }} state=present update_cache=yes
+  with_items: gtest_packages
+
+- name: check gtest installation
+  stat: path=/usr/lib/libgtest.a
+  register: status
+
+- name: ensure gtest build directory
+  sudo: yes
+  file: path={{ gtest_build_dir }} state=directory
+  # when: not status.stat.exists
+
+- name: build and install gtest
+  sudo: yes
+  command: "{{ item }} chdir={{ gtest_src_dir }}"
+  # when: not status.stat.exists
+  with_items:
+    - cmake {{ gtest_src_dir }}
+    - make
+    - cp libgtest.a /usr/lib/
+    - cp libgtest_main.a /usr/lib/
+
+- name: remove gtest build directory
+  sudo: yes
+  file: path={{ gtest_build_dir }} state=absent
+  # when: not status.stat.exists
