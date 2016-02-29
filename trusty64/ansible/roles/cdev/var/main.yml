@@ -1,0 +1,9 @@
+---
+gtest_packages:
+  - g++
+  - cmake
+  - libgtest-dev
+
+gtest_src_dir: /usr/src/gtest
+
+gtest_build_dir: "{{ gtest_src_dir }}"/build

@@ -13,7 +13,6 @@
   with_items:
     - cpputest
     - valgrind
-    - libgtest-dev
     # - gcovr
 
 - name: add  for ubuntu-sdke-team repo to install qt
@@ -23,3 +22,31 @@
 - name: update apt and install qt
   sudo: yes
   apt: name=qt5-default update_cache=yes state=latest
+
+
+
+- name: (gtest) install packages
+  sudo: yes
+  apt: name={{ item }} state=present update_cache=yes
+  with_items: gtests_packages
+
+- name: (gtest) check gtest installation
+  stat: path=/usr/lib/libgtest.a
+  register: status
+
+- name: (gtest) ensure gtest build directory
+  file: path={{ gtest_build_dir }} state=directory
+  when: not status.stat.exists
+
+- name: (gtest) build and install gtest
+  sudo: yes
+  command: "{{ item }}" chdir= {{ gtest_build_dir }}
+  with_items:
+    - cmake {{ gtest_src_dir }}
+    - make
+    - cp libgtest.a /usr/lib
+    - cp libgtest_main.a /usr/lib
+
+- name: remove gtest build directory
+  file: path={{ gtest_build_dir }} state=absent
+  when: not status.stat.exists
